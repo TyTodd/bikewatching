@@ -20,11 +20,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: build
-        env:
-          BASE_PATH: "/${{ github.event.repository.name }}"
+      - name: Set environment variables
         run: |
-          npm run build
+          echo "BASE_PATH=/${{ github.event.repository.name }}" >> $GITHUB_ENV
+          echo "VITE_MAPBOX_ACCESS_TOKEN=${{ secrets.VITE_MAPBOX_ACCESS_TOKEN }}" >> $GITHUB_ENV
+
+      - name: Build
+        run: npm run build
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v3
